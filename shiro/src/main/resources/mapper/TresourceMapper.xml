@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shiro.mapper.TresourceMapper">
+
+<select id="findByUserId" parameterType="integer" resultType="com.example.shiro.bean.Tresource">
+    SELECT t.* FROM t_resource t LEFT JOIN t_role_resource r ON t.resource_id=r.resource_id
+        LEFT JOIN t_userRole ur ON ur.role_id = r.role_id  WHERE
+        ur.user_id = #{userId}
+
+</select>
+    <select id="findByRoleId" resultType="com.example.shiro.bean.Tresource" parameterType="integer">
+        SELECT t.* FROM t_resource t , t_role_resource r
+             WHERE t.resource_id=r.resource_id
+             and  r.role_id = #{roleId}
+
+    </select>
+    <select id="findByRoleIdList" resultType="com.example.shiro.bean.Tresource">
+        SELECT t.* FROM t_resource t , t_role_resource r
+        WHERE t.resource_id=r.resource_id
+
+        <if test="roleIdList != null and roleIdList.size >0 ">
+            and  r.role_id in 
+        <foreach collection="roleIdList" separator="," item="item" open="(" close=")" >
+            #{item}
+        </foreach>
+        </if>
+
+    </select>
+
+</mapper>

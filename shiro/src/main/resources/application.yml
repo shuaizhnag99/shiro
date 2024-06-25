@@ -1,0 +1,30 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /shiro
+  
+
+# 数据库配置
+spring:
+  application:
+    name: shiro
+  datasource:
+    url:  jdbc:mysql://localhost:3306/shiro?autoReconnect=true&autoReconnectForPools=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+   # data: classpath:db/data.sql  脚本中初始化数据的预计
+   # schema: classpath:db/schema.sql  脚本中创建表的语句
+   # sql-script-encoding:   utf-8  设置脚本的编码
+  thymeleaf:
+    #是关闭 Thymeleaf 的缓存，不然在开发过程中修改页面不会立刻生效需要重启，生产可配置为 true。
+    cache: false
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.example.shiro.bean
+
