@@ -25,6 +25,7 @@ public class UserController {
         }
 
         TuserVo troleVo = tuserService.getUserInfo(userId);
+
         log.info("getUserInfo userName {}",troleVo.getUserName());
         return troleVo;
     }
