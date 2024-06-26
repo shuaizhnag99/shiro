@@ -5,5 +5,9 @@
 <select id="selectByUserId" parameterType="integer" resultType="com.example.shiro.bean.Tuser">
     SELECT *  FROM t_user t WHERE t.user_id = #{userId}
 </select>
+ <select id="selectByUserCode" parameterType="string" resultType="com.example.shiro.bean.Tuser">
+     SELECT *  FROM t_user t WHERE t.user_code = #{userCode} and t.status = '1'
+ </select>
+
 
 </mapper>

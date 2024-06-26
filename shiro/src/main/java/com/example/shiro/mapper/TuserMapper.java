@@ -10,4 +10,7 @@ public interface TuserMapper extends BaseMapper<Tuser> {
 
     Tuser selectByUserId(@Param("userId")Integer userId);
 
+    Tuser selectByUserCode(@Param("userCode")String userCode);
+
+
 }

@@ -37,8 +37,29 @@ public class TuserServiceImpl implements TuserService {
             tuserVo=null;
             return tuserVo;
         }
+        userAddRoleInfo(tuserVo);
 
-        List<Trole> troleList=roleMapper.selectRoleByUserId(userId);
+        return tuserVo;
+    }
+
+    @Override
+    public TuserVo getUserInfo(String userCode) {
+        TuserVo tuserVo = new TuserVo();
+        Tuser tuser=tuserMapper.selectByUserCode(userCode);
+        if(null!=tuser){
+            BeanUtils.copyProperties(tuser,tuserVo);
+
+        }else {
+            tuserVo=null;
+            return tuserVo;
+        }
+        userAddRoleInfo(tuserVo);
+        return tuserVo;
+    }
+
+    private void userAddRoleInfo(TuserVo tuserVo) {
+
+        List<Trole> troleList=roleMapper.selectRoleByUserId(tuserVo.getUserId());
         if(!CollectionUtils.isEmpty(troleList)){
             tuserVo.setTroleList(troleList);
         }
@@ -50,11 +71,10 @@ public class TuserServiceImpl implements TuserService {
         });
         List<Tresource> tresourceList=new ArrayList<>();
         if(!CollectionUtils.isEmpty(roleIdList)){
-             tresourceList=tresourceMapper.findByRoleIdList(roleIdList);
+            tresourceList=tresourceMapper.findByRoleIdList(roleIdList);
         }
         if(!CollectionUtils.isEmpty(tresourceList)){
             tuserVo.setRosurceList(tresourceList);
         }
-        return tuserVo;
     }
 }
