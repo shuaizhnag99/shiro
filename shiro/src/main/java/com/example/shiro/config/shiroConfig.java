@@ -1,6 +1,7 @@
 package com.example.shiro.config;
 
 import com.example.shiro.auth.MyRealm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -16,7 +17,9 @@ public class shiroConfig {
 
     @Bean(name = "myRealm")
     public MyRealm myRealm() {
-        return new MyRealm();
+        MyRealm myRealm = new MyRealm();
+        myRealm.setCredentialsMatcher(credentialsMatcher());
+        return myRealm;
     }
 
     @Bean(name = "securityManager")
@@ -57,12 +60,20 @@ public class shiroConfig {
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/regerist/**", "anon");
         filterChainDefinitionMap.put("/static", "anon");
         filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
 
+    }
+    @Bean(name = "credentialsMatcher")
+    public HashedCredentialsMatcher credentialsMatcher(){
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        hashedCredentialsMatcher.setHashAlgorithmName("md5");
+        hashedCredentialsMatcher.setHashIterations(10);
+        return hashedCredentialsMatcher;
     }
 
 }

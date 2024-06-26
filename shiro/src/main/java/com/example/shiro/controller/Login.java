@@ -1,6 +1,8 @@
 package com.example.shiro.controller;
 
 
+import com.example.shiro.bean.Tuser;
+import com.example.shiro.service.TuserService;
 import com.example.shiro.vo.TuserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -11,7 +13,9 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 public class Login {
+    @Autowired
+    TuserService tuserService;
 
     @RequestMapping(value = "/login")
     public String login(@RequestBody  TuserVo tuserVo) {
@@ -95,6 +101,17 @@ public class Login {
         }
 
         return "logout sucess!!!";
+    }
+    @RequestMapping(value = "/regerist")
+    public String regerist(@RequestBody Tuser tuser){
+        if(StringUtils.hasText(tuser.getUserCode())&&StringUtils.hasText(tuser.getPassword())){
+            tuser.setSalt(tuser.getUserCode());
+            String password=new SimpleHash("MD5",tuser.getPassword(),tuser.getSalt(),10).toHex();
+            log.info("regerist password:{}",password);
+            tuser.setPassword(password);
+            tuserService.insertOrUpdateUser(tuser);
+        }
+        return "regerist sucess!!!";
     }
 
 }

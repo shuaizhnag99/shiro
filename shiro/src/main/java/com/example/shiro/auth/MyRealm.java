@@ -8,6 +8,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.util.CollectionUtils;
@@ -53,7 +54,7 @@ public class MyRealm extends AuthorizingRealm {
            return null;
        }else {
          //  vo.setPassword("");
-           return new SimpleAuthenticationInfo(username,vo.getPassword(),getName());
+           return new SimpleAuthenticationInfo(username,vo.getPassword(), ByteSource.Util.bytes(vo.getSalt()),getName());
        }
 
     }

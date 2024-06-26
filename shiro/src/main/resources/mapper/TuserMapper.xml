@@ -8,6 +8,12 @@
  <select id="selectByUserCode" parameterType="string" resultType="com.example.shiro.bean.Tuser">
      SELECT *  FROM t_user t WHERE t.user_code = #{userCode} and t.status = '1'
  </select>
+<update id="updateById" parameterType="com.example.shiro.bean.Tuser">
+    update t_user t set salt = #{tuser.salt},
+                        password =#{tuser.password},
+                        update_time= #{tuser.updateTime}
+    where user_id =#{tuser.userId}
 
+</update>
 
 </mapper>
