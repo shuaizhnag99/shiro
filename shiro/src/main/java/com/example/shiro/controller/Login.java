@@ -39,6 +39,8 @@ public class Login {
             return "用户名和密码不对";
         }catch (AuthorizationException authorizationException){
             return "用户没有权限";
+        }catch (Exception exception){
+            exception.printStackTrace();
         }
 
         return "login sucess!!!";
@@ -57,7 +59,7 @@ public class Login {
 
     @RequiresGuest
     @RequestMapping(value = "/guest")
-    public String guest(@RequestBody  TuserVo tuserVo){
+    public String guest(){
         return "test guest";
     }
 
@@ -71,6 +73,28 @@ public class Login {
     @RequestMapping(value = "/testnopre")
     public String testnopre(){
         return "test testnopre";
+    }
+
+    @RequestMapping(value = "/loginout")
+    public String loginout() {
+
+        Subject subject= SecurityUtils.getSubject();
+
+        try{
+            if(null==subject.getPrincipal()){
+                return "没有登录，无法操作";
+            }
+            subject.logout();
+
+        }catch (UnknownAccountException unknownAccountException){
+            return "用户名对应的账号不存在";
+        }catch (AuthenticationException authenticationException){
+            return "用户名和密码不对";
+        }catch (AuthorizationException authorizationException){
+            return "用户没有权限";
+        }
+
+        return "logout sucess!!!";
     }
 
 }

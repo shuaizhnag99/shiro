@@ -2,10 +2,8 @@ package com.example.shiro.auth;
 
 import com.example.shiro.service.TuserService;
 import com.example.shiro.vo.TuserVo;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -15,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-
+@Slf4j
 public class MyRealm extends AuthorizingRealm {
 
     @Autowired
@@ -47,6 +45,9 @@ public class MyRealm extends AuthorizingRealm {
           return null;
        }
        String username = (String) authenticationToken.getPrincipal();
+
+        String password =new String ( ((UsernamePasswordToken) authenticationToken).getPassword()) ;
+        log.info("doGetAuthenticationInfo username {} password {}",username,password);
        TuserVo vo=tuserService.getUserInfo(username);
        if(null==vo){
            return null;
