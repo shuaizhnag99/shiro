@@ -68,6 +68,11 @@ public class shiroConfig {
         return shiroFilterFactoryBean;
 
     }
+
+    /**
+     * 密码加密方式
+     * @return
+     */
     @Bean(name = "credentialsMatcher")
     public HashedCredentialsMatcher credentialsMatcher(){
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
