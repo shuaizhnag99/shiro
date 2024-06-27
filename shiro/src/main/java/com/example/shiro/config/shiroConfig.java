@@ -18,7 +18,7 @@ public class shiroConfig {
     @Bean(name = "myRealm")
     public MyRealm myRealm() {
         MyRealm myRealm = new MyRealm();
-        myRealm.setCredentialsMatcher(credentialsMatcher());
+      //  myRealm.setCredentialsMatcher(credentialsMatcher());
         return myRealm;
     }
 
@@ -69,16 +69,16 @@ public class shiroConfig {
 
     }
 
-    /**
-     * 密码加密方式
+   /* *//**
+     * 密码加密方式一
      * @return
-     */
+     *//*
     @Bean(name = "credentialsMatcher")
     public HashedCredentialsMatcher credentialsMatcher(){
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         hashedCredentialsMatcher.setHashAlgorithmName("md5");
         hashedCredentialsMatcher.setHashIterations(10);
         return hashedCredentialsMatcher;
-    }
+    }*/
 
 }
